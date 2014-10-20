@@ -3,10 +3,90 @@ Travail Pratique 2
 *********************************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
 
 int main()
 {
   return 0;
 }
 
+void pile_concatener(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source);
+//Cette procédure concatène les deux piles reçues en paramètre. La pile résultante est assignée à la première pile et son nombre d’éléments est ajusté.
 
+int pile_est_present(int pile[], int nb_elements, int entier);
+//Cette fonction vérifie si l’entier reçu en paramètre est présent dans la pile ou non. S’il est présent elle retourne son indice sinon elle retourne -1.
+
+void pile_tronquer(int* pile[], int* nb_elements, int indice);
+//Cette procédure tronque la fin d’une à partir de l’indice reçu en paramètre. La nouvelle pile aura donc indice + 1 éléments.
+
+
+void pile_concatener(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source)
+{
+int* nouvelle_pile = NULL;
+int x = 0;
+int y = 0;
+
+nouvelle_pile = (int*) calloc((*nb_elements_destination + nb_elements_source), sizeof(int));
+
+	for (x=0; x< nb_elements_source ; x++)
+	{
+		nouvelle_pile[x] = pile_source[x];
+	}
+
+
+	for ( y = x; y < (x+*nb_elements_destination) ; y++)
+	{
+		nouvelle_pile[y] = *pile_destination[y-x];
+	}
+
+	free(*pile_destination); *pile_destination = NULL;
+	*pile_destination = nouvelle_pile;
+	//pile_detruire(*pile_destination, *nb_elements_destination)
+
+	//La pile destination contient maintenant la concatenation
+	//l'adresse de la pile destination pointe vers les concatenation, donc.
+}
+
+
+
+
+
+int pile_est_present(int pile[], int nb_elements, int entier)
+{
+
+	int x = 0;
+
+	for (x = 0; x < nb_elements ; x++)
+	{
+		if (pile[x] = entier)  {return x;}
+	}
+
+	return -1;
+}
+
+
+
+
+
+
+void pile_tronquer(int* pile[], int* nb_elements, int indice)
+{
+int* nouvelle_pile = NULL;
+int x = 0;
+int y = 0;
+
+nouvelle_pile = (int*) calloc((indice+1), sizeof(int));
+
+	for (x=0; x<= indice ; x++)
+	{
+		nouvelle_pile[x] = *pile[x];
+	}
+
+	free(*pile); *pile = NULL;
+	*pile = nouvelle_pile; 
+	//pile_detruire(*pile_destination, *nb_elements_destination)
+	//La pile destination contient maintenant la concatenation
+	//l'adresse de la pile destination pointe vers les concatenation, donc.
+
+}
