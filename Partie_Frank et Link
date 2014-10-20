@@ -93,5 +93,8 @@ int pile_enlever(int* pile[], int* nb_elements)
 
 void pile_copier(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source)
 {
-	memcpy(*pile_destination, pile_source, sizeof(int) * (*nb_elements_destination));
+	memcpy(*pile_destination, pile_source, sizeof(int) * (*nb_elements_destination)); 
+	
+	//nb_elements_destination serait à remplacer par nb_elements_source dans le memcry, sinon, pour:
+	//pile_source[6] et pile_destination[7], pile_source copie 7 de seselement dans pile_destination
 }
