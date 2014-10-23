@@ -17,24 +17,86 @@
 //      -- Recréation de pile_copier(). Permet la copie de nos pile qu'elles soit plus grande ou plus petite l'une de l'autre
 //      -- Modification de pile_ajouter() et pile_enlever().
 //      -- Ajout de ifndef
+//      -- Ajout de beaucoup de commentaires
 /************************************************************************************************/
 
+/*                                          DEFINE                                              */
+/************************************************************************************************/
 #ifndef MOD_PILE
 #define MOD_PILE
+/************************************************************************************************/
 
+/*                                         INCLUDES                                             */
+/************************************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 //#include <string.h>
 //#include <memory.h>
+/************************************************************************************************/
 
+/*                                        DECLARATION                                           */
+/************************************************************************************************/
 
 void pile_initialiser(int* pile[], int* nb_elements);
+/*
+Cette fonction sert a initialiser une pile et sont nb_elements à NULL.
+Parametre : int* pile[]         --> Pointeur sur tableau (qui est notre pile)
+            int* nb_elements    --> Pointeur sur le nombre d'éléments de la pile
+Return : Void			
+*/
+/************************************************************************************************/
+
 void pile_ajouter(int* pile[], int* nb_elements, int entier);
+/*
+Cette fonction sert a ajouter un element à une pile.
+Parametre : int* pile[]         --> Pointeur sur tableau (qui est notre pile)
+            int* nb_elements    --> Pointeur sur le nombre d'éléments de la pile
+            int entier          --> L'entier à ajouter sur le dessus de la pile
+Return : Void			
+*/
+/************************************************************************************************/
+
 void pile_copier(int* pile_destination[], int nb_elements_destination, int *pile_source[], int nb_elements_source);
+/*
+Cette fonction sert a copier une pile dans un autre. 
+Si la pile de source est plus grande que la pile de destination, on décale les valeurs en "enlevant" la variable tableau[0].
+Si la pile de source est plus petite que la pile de destination, on laisse un espace vide en tableau[0].
+si la pile de source est identique à la pile de destination, on cpie sans décalage.
+Parametre : int* pile_destination           --> Pointeur sur notre pile de destination
+            int nb_elements_destination     --> Nombre d'éléments de la pile de destination
+            int* pile_source                --> Pointeur sur la pile source
+            int nb_element_source           --> Nombre d'éléments de la pile de source
+Return : Void			
+*/
+/************************************************************************************************/
+
 void pile_afficher(int *pile[], int nb_elements);
+/*
+Cette fonction sert a afficher tous les éléments d'une pile.
+Parametre : int* pile[]         --> Pointeur sur tableau (qui est notre pile)
+            int nb_elements     --> Nombre d'éléments de la pile
+Return : Void			
+*/
+/************************************************************************************************/
+
 int pile_enlever(int* pile[], int* nb_elements);
+/*
+Cette fonction sert a enlever le dernier élément d'une pile.
+Parametre : int* pile[]         --> Pointeur sur tableau (qui est notre pile)
+            int* nb_elements    --> Pointeur sur le nombre d'éléments de la pile
+Return : l'entier qui à été enlever			
+*/
+/************************************************************************************************/
+
 void pile_detruire(int* pile[], int* nb_elements);
+/*
+Cette fonction sert a detruire une pile et de remetre son pointeur et  le nombre d'éléments à 0.
+Parametre : int* pile[]         --> Pointeur sur tableau (qui est notre pile)
+            int* nb_elements    --> Pointeur sur le nombre d'éléments de la pile
+Return : Void			
+*/
+/************************************************************************************************/
 
 int main()
 {
@@ -80,7 +142,8 @@ int main()
     //free(*p_temp);
     return 0;
 }
-
+/*                                        DEFINITION                                            */
+/************************************************************************************************/
 void pile_initialiser(int* pile[], int* nb_elements)
 {
     *nb_elements = 0;
@@ -165,6 +228,16 @@ void pile_copier(int* pile_destination[], int nb_elements_destination, int *pile
         for(i = 0; i < nb_elements_source; i++)
         {
             ((*pile_destination)[i+1]) = (*pile_source)[i]; // Copie la source dans une case plus loin pour la destination
+        }
+    }
+    //si la pile de destination est égal que la pile de source
+    if(nb_elements_destination == nb_elements_source )
+    {
+        int i = 0;
+
+        for(i = 0; i < nb_elements_source; i++)
+        {
+            ((*pile_destination)[i]) = (*pile_source)[i]; // Copie la source dans la destination sans décalage
         }
     }
 
