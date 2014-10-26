@@ -4,7 +4,7 @@
 //Contenu  : Contient les fonction relatif à la création, modification et destruction de pile
 //Objectif : Création d'un algorithme de réalisation de labyrinthe
 //Création : 20 Octobre 2014
-//                                                  Creer par Samuel - Link - Geoffroy-Heroux
+//                                                 Creer par: Samuel - Link - Geoffroy-Heroux
 //                                                            Francis Masse
 //                                                            Christopher Dom
 //                                                            Vincent Lynch
@@ -31,8 +31,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-//#include <string.h>
-//#include <memory.h>
+#include <string.h>
+#include <memory.h>
 /************************************************************************************************/
 
 /*                                        DECLARATION                                           */
@@ -98,52 +98,117 @@ Return : Void
 */
 /************************************************************************************************/
 
+void pile_concatener(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source);
+/*
+
+Parametre : 
+Return : 			
+*/
+/************************************************************************************************/
+
+void pile_concatener(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source);
+/*
+
+Parametre : 
+Return : 			
+*/
+/************************************************************************************************/
+int pile_est_present(int pile[], int nb_elements, int entier);
+/*
+
+Parametre : 
+Return : 			
+*/
+/************************************************************************************************/
+void pile_tronquer(int* pile[], int* nb_elements, int indice);
+/*
+
+Parametre : 
+Return : 			
+*/
+/************************************************************************************************/
+
 int main()
 {
-    int* pile[] = {NULL};
-    int nb_elements = 0;
+	int tableau[5] = {10,20,30,40,50}, tableau2[5] = {60,70,80,90,100};
+	int *ptr_tableau = tableau, *ptr_tableau2 = tableau2;
+	int nb_element = 5, *ptr_element = &nb_element, test=0;
 
-    //int* p_temp[] = {NULL};
-    printf("Debut du program\n");
+	// Test de concatener (FONCTIONNE sauf pour free())
+	printf("test de concatener:\n%d\n", ptr_tableau[4]);
+	printf("%d\n", *ptr_element);
+	pile_concatener(&ptr_tableau, ptr_element , tableau2,5);
+	printf("%d\n", *ptr_element);
+	printf("%d\n", ptr_tableau[9]);
 
-    pile_initialiser(pile, &nb_elements);
-    printf("Initialisation de la pile\n");
-    system("pause");
+	//test de pile_est_present
+	test = pile_est_present(tableau, nb_element, 20);
+	printf("test de pile_est_present:\n%d\n", test);
+	test = pile_est_present(tableau, nb_element, 19);
+	printf("%d\n", test);
 
-    /* Partie de calcul pour tester la syntaxe
+	//test de tronquer
+	printf("test pour tronquer:\n%d\n", tableau[9]);
+	pile_tronquer(&ptr_tableau, ptr_element, 4);
+	printf("%d\n", tableau[4]);
+	printf("%d\n", tableau[5]);
 
-        *p_temp = (int *)calloc(nb_elements+1, sizeof(int*));
-        assert(*pile != NULL);
-        printf("Initialisation de la pile temporaire\n");
-        //system("pause");
-
-        printf("\nCalcul\n");
-        (*pile)[0] = 12;
-        (*p_temp)[0] = (*pile)[0];
-        printf("Affichage p_temp[0] : %d\n",(*p_temp)[0] );
-        system("pause");
-    */
-    //Teste des fonctions
-    printf("ajouter\n");
-    pile_ajouter(pile, &nb_elements, 69);
-    pile_ajouter(pile, &nb_elements, 70);
-    pile_ajouter(pile, &nb_elements, 78);
-    pile_ajouter(pile, &nb_elements, 10);
-    pile_afficher(pile, nb_elements);
-    system("pause");
-
-    printf("Enlever\n");
-    pile_enlever(pile, &nb_elements);
-    pile_enlever(pile, &nb_elements);
-    pile_afficher(pile, nb_elements);
-
-    pile_detruire(pile, &nb_elements);
-
-    //free(*p_temp);
     return 0;
 }
+
 /*                                        DEFINITION                                            */
 /************************************************************************************************/
+
+void pile_tronquer(int* pile[], int* nb_elements, int indice)
+{
+	int * nouvelle_pile[] = {NULL};
+	int x = 0;
+	int y = 0;
+
+	*nouvelle_pile = (int*) calloc((indice+1), sizeof(int));
+
+	for (x=0; x<= indice ; x++)
+	{
+		(*nouvelle_pile)[x] = (*pile)[x];
+	}
+
+	//free()
+	*pile = *nouvelle_pile;
+}
+int pile_est_present(int pile[], int nb_elements, int entier)
+{
+
+	int x = 0;
+
+	for (x = 0; x < nb_elements ; x++)
+	{
+		if (pile[x] == entier)  {return x;}
+	}
+
+	return -1;
+}
+void pile_concatener(int* pile_destination[], int* nb_elements_destination, int pile_source[], int nb_elements_source)
+{
+	int * nouvelle_pile[] = {NULL};
+	int x = 0;
+	int y = 0;
+
+	*nouvelle_pile = (int*) calloc((*nb_elements_destination + nb_elements_source), sizeof(int));
+
+	for (x=0; x < nb_elements_source ; x++)
+	{
+	(*nouvelle_pile)[x] = pile_source[x];
+	}
+	
+	for ( y = x; y < (x+(*nb_elements_destination)) ; y++)
+	{
+	(*nouvelle_pile)[y] = (*pile_destination)[y-x];
+	}
+
+	*nb_elements_destination = *nb_elements_destination + nb_elements_source;
+	//free(*pile_destination);
+	*pile_destination = *nouvelle_pile;
+}
 void pile_initialiser(int* pile[], int* nb_elements)
 {
     *nb_elements = 0;
@@ -157,7 +222,6 @@ void pile_detruire(int* pile[], int* nb_elements)
     free(*pile);
     *pile = NULL;
 }
-
 void pile_ajouter(int* pile[], int* nb_elements, int entier)
 {
     //Initialisation des variables temporaire
@@ -175,7 +239,6 @@ void pile_ajouter(int* pile[], int* nb_elements, int entier)
     *pile = *p_temp;           //assignation de la nouvelle pile
     (*nb_elements)++ ;
 }
-
 int pile_enlever(int *pile[], int* nb_elements)
 {
     //Initialisation des variables temporaire
@@ -196,7 +259,6 @@ int pile_enlever(int *pile[], int* nb_elements)
 
     return entier;
 }
-
 void pile_afficher(int *pile[], int nb_elements)
 {
     //Affiche tous les éléments de la pile
@@ -207,7 +269,6 @@ void pile_afficher(int *pile[], int nb_elements)
         printf("Deplacement #%d : %d\n", i, (*pile)[i]);
     }
 }
-
 void pile_copier(int* pile_destination[], int nb_elements_destination, int *pile_source[], int nb_elements_source)
 {
     //si la pile de source est plus grande que la pile de destination
