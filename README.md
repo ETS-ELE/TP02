@@ -18,9 +18,6 @@ Création : 20 Octobre 2014
                                                             Vincent Lynch
 /************************************************************************************************/
 
-Module à terminer avant lundi le 27 octobre 2014
-    pile
-
 Module restant
 
     chemin_aleatoire
